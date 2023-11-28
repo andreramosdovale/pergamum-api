@@ -12,31 +12,33 @@ class ExportController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$this->validateRequest($request)) {
-            return response('Dados incorretos', 400);
-        }
-
         try {
-            Mail::to($request->input('email'), $request->input('name'))->send(new Export([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'message' => $request->input('data'),
+            $this->validateRequest($request);
+
+            $email = $request->input('email');
+            $name = $request->input('name');
+            $data = $request->input('data');
+
+            Mail::to($email, $name)->send(new Export([
+                'name' => $name,
+                'email' => $email,
+                'message' => $data,
             ]));
+
+            return response('Email enviado com sucesso', 200);
         } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
             return response('Erro no envio do email', 500);
         }
-
-        return response('Email enviado com sucesso', 200);
     }
 
     private function validateRequest(Request $request)
     {
-        if (gettype($request->input('name')) != "string") return false;
-        if (gettype($request->input('email')) != "string") return false;
-        if (gettype($request->input('data')) != "array") return false;
-        if (count($request->input('data')) <= 0) return false;
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $data = $request->input('data');
 
-        return true;
+        if (!is_string($name) || !is_string($email) || !is_array($data) || empty($data)) {
+            throw new Exception('Dados incorretos');
+        }
     }
 }
