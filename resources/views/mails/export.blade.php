@@ -1,3 +1,4 @@
+{{ csrf_field() }}
 <h2>Olá {{$data['name']}}</h2>
 <p>Segue os itens selecionados do site do Pergamum</p>
 
