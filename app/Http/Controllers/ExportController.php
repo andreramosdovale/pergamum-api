@@ -25,15 +25,15 @@ class ExportController extends Controller
                 'message' => $data,
             ]));
 
-            return response('Email enviado com sucesso', 200);
+            return response()->json('Email enviado com sucesso', 200);
         } catch (Exception $e) {
-            return response('Erro no envio do email', 500);
+            return response()->json('Erro no envio do email', 500);
         }
     }
 
     public function getToken()
     {
-        return csrf_token();
+        return response()->json(csrf_token(), 200);
     }
 
     private function validateRequest(Request $request)
