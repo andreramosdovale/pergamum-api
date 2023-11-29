@@ -19,4 +19,3 @@ Route::get('/', function () {
 });
 
 Route::post('/export', [ExportController::class, 'index'])->name('export.index');
-Route::get('/get-token', [ExportController::class, 'getToken'])->name('export.token');

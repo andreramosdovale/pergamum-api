@@ -31,11 +31,6 @@ class ExportController extends Controller
         }
     }
 
-    public function getToken()
-    {
-        return response()->json(csrf_token(), 200);
-    }
-
     private function validateRequest(Request $request)
     {
         $name = $request->input('name');
